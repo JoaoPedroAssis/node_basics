@@ -19,6 +19,13 @@ class CreateTransactionService {
       throw Error('Incorrect transaction type');
     }
 
+    if (type === 'outcome') {
+      const balance = this.transactionsRepository.getBalance();
+
+      if (value > balance.total) {
+        throw Error('Deu ruim');
+      }
+    }
     const transaction = this.transactionsRepository.create({
       title,
       value,
